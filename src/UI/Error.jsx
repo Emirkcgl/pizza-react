@@ -6,9 +6,9 @@ function Error() {
 
   return (
     <div>
-      <h1>Something went wrong 😢</h1>
+      <h1>Bir şeyler ters gitti 😢</h1>
       <p>{error.data || error.message}</p>
-      <button onClick={() => navigate(-1)}>&larr; Go back</button>
+      <button onClick={() => navigate(-1)}>&larr; Geri dön</button>
     </div>
   );
 }

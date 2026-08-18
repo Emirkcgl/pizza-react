@@ -6,7 +6,6 @@ import Loader from "./Loader";
 function AppLayaout() {
   const navigate = useNavigation();
   const isLoading = navigate.state === "loading";
-  console.log(navigate);
   return (
     <div className="layout">
       {isLoading && <Loader />}

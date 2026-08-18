@@ -9,18 +9,18 @@ function CreateUser() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <p>👋 Welcome! Please start by telling us your name:</p>
+      <p>👋 Hoş geldin! Önce bize adını söyler misin?</p>
 
       <input
         type="text"
-        placeholder="Your full name"
+        placeholder="Adın ve soyadın"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
 
       {username !== '' && (
         <div>
-          <button>Start ordering</button>
+          <button>Sipariş vermeye başla</button>
         </div>
       )}
     </form>

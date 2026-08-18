@@ -13,7 +13,7 @@ function SearchOrder() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <input placeholder="Search order #" value={query} onChange={(e) => setQuery(e.target.value)} />
+      <input placeholder="Sipariş numarası ara" value={query} onChange={(e) => setQuery(e.target.value)} />
     </Form>
   );
 }

@@ -13,25 +13,27 @@ function Order() {
   return (
     <div>
       <div>
-        <h2>Status</h2>
+        <h2>Durum</h2>
 
         <div>
-          {priority && <span>Priority</span>}
-          <span>{status} order</span>
+          {priority && <span>Öncelikli</span>}
+          <span>Sipariş durumu: {status}</span>
         </div>
       </div>
 
       <div>
         <p>
-          {deliveryIn >= 0 ? `Only ${calcMinutesLeft(estimatedDelivery)} minutes left 😃` : "Order should have arrived"}
+          {deliveryIn >= 0
+            ? `Teslimata yalnızca ${calcMinutesLeft(estimatedDelivery)} dakika kaldı 😃`
+            : "Siparişin teslim edilmiş olması gerekiyordu"}
         </p>
-        <p>(Estimated delivery: {formatDate(estimatedDelivery)})</p>
+        <p>(Tahmini teslimat: {formatDate(estimatedDelivery)})</p>
       </div>
 
       <div>
-        <p>Price pizza: {formatCurrency(orderPrice)}</p>
-        {priority && <p>Price priority: {formatCurrency(priorityPrice)}</p>}
-        <p>To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}</p>
+        <p>Pizza ücreti: {formatCurrency(orderPrice)}</p>
+        {priority && <p>Öncelik ücreti: {formatCurrency(priorityPrice)}</p>}
+        <p>Teslimatta ödenecek tutar: {formatCurrency(orderPrice + priorityPrice)}</p>
       </div>
     </div>
   );

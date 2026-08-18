@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { Form, redirect, useLoaderData } from "react-router-dom";
+import Cart from "../cart/Cart";
+import { createOrder } from "../../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
-const isValidPhone = (str) =>
-  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-    str
-  );
+const isValidPhone = (str) => /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(str);
 
 const fakeCart = [
   {
@@ -33,26 +33,25 @@ const fakeCart = [
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
-
   return (
     <div>
-      <h2>Ready to order? Let's go!</h2>
+      <h2>Sipariş vermeye hazır mısın? Haydi başlayalım!</h2>
 
-      <form>
+      <Form method="POST">
         <div>
-          <label>First Name</label>
+          <label>Ad</label>
           <input type="text" name="customer" required />
         </div>
 
         <div>
-          <label>Phone number</label>
+          <label>Telefon numarası</label>
           <div>
             <input type="tel" name="phone" required />
           </div>
         </div>
 
         <div>
-          <label>Address</label>
+          <label>Adres</label>
           <div>
             <input type="text" name="address" required />
           </div>
@@ -66,15 +65,30 @@ function CreateOrder() {
             // value={withPriority}
             // onChange={(e) => setWithPriority(e.target.checked)}
           />
-          <label htmlFor="priority">Want to yo give your order priority?</label>
+          <label htmlFor="priority">Siparişine öncelik vermek ister misin?</label>
         </div>
 
         <div>
-          <button>Order now</button>
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <button>Şimdi sipariş ver</button>
         </div>
-      </form>
+      </Form>
     </div>
   );
+}
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData); // veriyi nesneye dönüştürdük
+
+  const order = {
+    ...data,
+    cart: JSON.parse(data.cart),
+    priority: data.priority === "on",
+  };
+  console.log(order);
+  const newOrder = await createOrder(order);
+  return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;
