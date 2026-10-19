@@ -9,22 +9,29 @@ function CreateUser() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <p className="mb-4 text-sm text-stone-600 md:text-base">👋 Hoş geldin! Önce bize adını söyler misin?</p>
+    <form onSubmit={handleSubmit} className="surface-card p-4 sm:p-5">
+      <label htmlFor="username" className="mb-3 block text-sm font-semibold text-[#37342F]">
+        Hoş geldin — sana nasıl hitap edelim?
+      </label>
 
-      <input
-        type="text"
-        placeholder="Adın ve soyadın"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="mb-8 w-72 rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6 md:py-3"
-      />
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <input
+          id="username"
+          type="text"
+          autoComplete="name"
+          placeholder="Adın ve soyadın"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="form-input flex-1"
+        />
 
-      {username !== "" && (
-        <div>
-          <Button type="primary">Sipariş vermeye başla</Button>
-        </div>
-      )}
+        {username !== "" && (
+          <Button type="primary" className="shrink-0 sm:px-5">
+            Siparişe başla
+            <span aria-hidden="true">→</span>
+          </Button>
+        )}
+      </div>
     </form>
   );
 }

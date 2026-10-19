@@ -2,6 +2,7 @@ import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 
 import { createOrder } from "../../services/apiRestaurant";
 import Button from "../../UI/Button";
+import { formatCurrency } from "../../utils/helpers";
 
 function isValidPhone(str) {
   return /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(str);
@@ -31,8 +32,7 @@ const fakeCart = [
   },
 ];
 
-const inputStyles =
-  "rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6 md:py-3";
+const inputStyles = "form-input";
 
 function CreateOrder() {
   const navigation = useNavigation();
@@ -40,76 +40,132 @@ function CreateOrder() {
   const formErrors = useActionData();
 
   const cart = fakeCart;
+  const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="px-4 py-6">
-      <h2 className="mb-8 text-xl font-semibold">Sipariş vermeye hazır mısın? Haydi başlayalım!</h2>
+    <section className="page-shell">
+      <header className="max-w-2xl">
+        <p className="eyebrow">Teslimat bilgileri</p>
+        <h1 className="display-title mt-2 text-4xl sm:text-5xl">Son bir adım kaldı.</h1>
+        <p className="mt-3 text-base leading-7 text-[#746F68]">Siparişini teslim edebilmemiz için bilgilerini eksiksiz gir.</p>
+      </header>
 
-      <Form method="POST">
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <label htmlFor="customer" className="sm:shrink-0 sm:basis-40">
-            Ad
-          </label>
+      <Form method="POST" className="mt-8 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
+        <div className="surface-card p-5 sm:p-7 lg:p-8">
+          <div className="flex items-center gap-3 border-b border-[#ECE3D7] pb-5">
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-[#A83422] text-sm font-bold text-white">1</span>
+            <div>
+              <h2 className="font-display text-xl font-semibold text-[#201F1B]">Kişisel bilgiler</h2>
+              <p className="mt-0.5 text-xs text-[#746F68]">Teslimat için kullanılır.</p>
+            </div>
+          </div>
 
-          <input className={`${inputStyles} grow`} type="text" name="customer" id="customer" required />
-        </div>
+          <div className="mt-6 space-y-5">
+            <div>
+              <label htmlFor="customer" className="field-label">Ad soyad</label>
+              <input
+                className={inputStyles}
+                type="text"
+                name="customer"
+                id="customer"
+                autoComplete="name"
+                placeholder="Adın ve soyadın"
+                required
+              />
+            </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <label htmlFor="phone" className="sm:shrink-0 sm:basis-40">
-            Telefon numarası
-          </label>
+            <div>
+              <label htmlFor="phone" className="field-label">Telefon numarası</label>
+              <input
+                className={`${inputStyles} ${formErrors?.phone ? "border-[#B42318] bg-[#FFF8F7] focus:border-[#B42318] focus:ring-[#B42318]/10" : ""}`}
+                type="tel"
+                name="phone"
+                id="phone"
+                autoComplete="tel"
+                inputMode="tel"
+                placeholder="+90 5xx xxx xx xx"
+                required
+                aria-invalid={Boolean(formErrors?.phone)}
+                aria-describedby={formErrors?.phone ? "phone-error" : "phone-help"}
+              />
+              {formErrors?.phone ? (
+                <p id="phone-error" role="alert" className="mt-2 flex items-start gap-2 rounded-xl bg-[#FCEBE8] px-3 py-2.5 text-sm font-medium text-[#8F2617]">
+                  <span aria-hidden="true">!</span> {formErrors.phone}
+                </p>
+              ) : (
+                <p id="phone-help" className="mt-2 text-xs text-[#8B857E]">Siparişinle ilgili gerektiğinde sana ulaşabilmemiz için.</p>
+              )}
+            </div>
 
-          <div className="grow">
+            <div>
+              <label htmlFor="address" className="field-label">Teslimat adresi</label>
+              <input
+                className={inputStyles}
+                type="text"
+                name="address"
+                id="address"
+                autoComplete="street-address"
+                placeholder="Mahalle, sokak ve kapı numarası"
+                required
+              />
+            </div>
+          </div>
+
+          <label htmlFor="priority" className="mt-7 flex cursor-pointer items-start gap-4 rounded-2xl border border-[#E3D8CA] bg-[#FBF7F1] p-4 transition hover:border-[#CDBBA8] sm:p-5">
             <input
-              className={`${inputStyles} w-full`}
-              type="tel"
-              name="phone"
-              id="phone"
-              required
-              aria-invalid={Boolean(formErrors?.phone)}
-              aria-describedby={formErrors?.phone ? "phone-error" : undefined}
+              type="checkbox"
+              name="priority"
+              id="priority"
+              className="mt-0.5 h-6 w-6 shrink-0 rounded border-[#C9BDAF] accent-[#A83422] focus:outline-none focus:ring-4 focus:ring-[#A83422]/20 focus:ring-offset-2"
             />
-
-            {formErrors?.phone && (
-              <p id="phone-error" role="alert" className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
-                {formErrors.phone}
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <label htmlFor="address" className="sm:shrink-0 sm:basis-40">
-            Adres
+            <span>
+              <span className="block font-semibold text-[#201F1B]">Siparişime öncelik ver</span>
+              <span className="mt-1 block text-sm leading-6 text-[#746F68]">Öncelikli hazırlanmasını istiyorsan bu seçeneği işaretle.</span>
+            </span>
           </label>
 
-          <div className="grow">
-            <input className={`${inputStyles} w-full`} type="text" name="address" id="address" required />
-          </div>
-        </div>
-
-        <div className="mb-12 flex items-center gap-5">
-          <input
-            type="checkbox"
-            name="priority"
-            id="priority"
-            className="h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2"
-          />
-
-          <label htmlFor="priority" className="font-medium">
-            Siparişine öncelik vermek ister misin?
-          </label>
-        </div>
-
-        <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-
-          <Button type="primary" disabled={isSubmitting}>
-            {isSubmitting ? "Sipariş veriliyor..." : "Şimdi sipariş ver"}
-          </Button>
         </div>
+
+        <aside className="surface-card overflow-hidden lg:sticky lg:top-6" aria-label="Sipariş özeti">
+          <div className="border-b border-[#ECE3D7] px-5 py-5 sm:px-6">
+            <p className="eyebrow">Sipariş özeti</p>
+            <div className="mt-2 flex items-end justify-between gap-4">
+              <h2 className="font-display text-2xl font-semibold text-[#201F1B]">{totalQuantity} pizza</h2>
+              <span className="font-display text-2xl font-semibold text-[#A83422]">{formatCurrency(totalPrice)}</span>
+            </div>
+          </div>
+
+          <ul className="divide-y divide-[#ECE3D7] px-5 sm:px-6">
+            {cart.map((item) => (
+              <li key={item.pizzaId} className="flex items-start justify-between gap-4 py-4 text-sm">
+                <div className="min-w-0">
+                  <p className="font-semibold text-[#37342F]"><span className="text-[#A83422]">{item.quantity}×</span> {item.name}</p>
+                  <p className="mt-1 text-xs text-[#8B857E]">{formatCurrency(item.unitPrice)} / adet</p>
+                </div>
+                <span className="shrink-0 font-semibold text-[#201F1B]">{formatCurrency(item.totalPrice)}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="border-t border-[#ECE3D7] bg-[#FBF8F4] p-5 sm:p-6">
+            <div className="mb-5 flex items-center justify-between">
+              <span className="font-semibold text-[#201F1B]">Toplam</span>
+              <span className="font-display text-3xl font-semibold text-[#A83422]">{formatCurrency(totalPrice)}</span>
+            </div>
+            <Button type="primary" disabled={isSubmitting} className="w-full">
+              {isSubmitting ? (
+                <><span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" aria-hidden="true"></span>Sipariş veriliyor...</>
+              ) : (
+                <>Şimdi sipariş ver <span aria-hidden="true">→</span></>
+              )}
+            </Button>
+            <p className="mt-3 text-center text-xs leading-5 text-[#8B857E]">Siparişini göndermeden önce bilgilerini kontrol et.</p>
+          </div>
+        </aside>
       </Form>
-    </div>
+    </section>
   );
 }
 
@@ -122,8 +178,6 @@ export async function action({ request }) {
     cart: JSON.parse(data.cart),
     priority: data.priority === "on",
   };
-
-  console.log(order);
 
   const errors = {};
 

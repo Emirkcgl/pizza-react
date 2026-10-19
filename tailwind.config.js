@@ -4,10 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Roboto Mono", "monospace"],
-      },
-      height: {
-        header: "100dvh",
+        sans: ["DM Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["Fraunces", "Georgia", "serif"],
       },
     },
   },

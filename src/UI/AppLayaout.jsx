@@ -6,13 +6,13 @@ import Loader from "./Loader";
 function AppLayaout() {
   const navigate = useNavigation();
   const isLoading = navigate.state === "loading";
+
   return (
-    <div className="grid h-screen grid-rows-[auto_1fr_auto]">
+    <div className="grid h-[100dvh] grid-rows-[auto_1fr_auto]">
       {isLoading && <Loader />}
-      {/*  {true && <Loader />} */}
       <Header />
-      <div className="overflow-scroll">
-        <main className="mx-auto max-w-3xl">
+      <div className="min-h-0 overflow-x-hidden overflow-y-auto">
+        <main>
           <Outlet />
         </main>
       </div>
