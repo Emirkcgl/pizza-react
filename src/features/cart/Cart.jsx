@@ -1,5 +1,6 @@
 import LinkButton from "../../UI/LinkButton";
 import Button from "../../UI/Button";
+import CartItem from "./CartItem";
 const fakeCart = [
   {
     pizzaId: 12,
@@ -28,13 +29,19 @@ function Cart() {
   const cart = fakeCart;
 
   return (
-    <div className="">
+    <div className="px-4 py-3">
       <LinkButton to="/menu">&larr; Menüye dön</LinkButton>
-      <h2>%NAME%, sepetin</h2>
-
-      <div>
-        <Button to="/order/new">Pizzaları sipariş et</Button>
-        <button>Sepeti temizle</button>
+      <h2 className="mt-7 text-xl font-semibold">%NAME%, sepetin</h2>
+      <ul className="mt-3 divide-y divide-stone-200 border-b border-t">
+        {cart.map((item) => (
+          <CartItem item={item} key={item.pizzaId} />
+        ))}
+      </ul>
+      <div className="mt-6 space-x-2">
+        <Button to="/order/new" type="primary">
+          Pizzaları sipariş et
+        </Button>
+        <Button type="secondary">Sepeti temizle</Button>
       </div>
     </div>
   );
