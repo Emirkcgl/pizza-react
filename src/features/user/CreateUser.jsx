@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Button from "../../UI/Button";
+import { Link } from "react-router-dom";
 
 function CreateUser() {
   const [username, setUsername] = useState("");
@@ -26,7 +27,7 @@ function CreateUser() {
         />
 
         {username !== "" && (
-          <Button type="primary" className="shrink-0 sm:px-5">
+          <Button type="primary" to="/menu">
             Siparişe başla
             <span aria-hidden="true">→</span>
           </Button>
