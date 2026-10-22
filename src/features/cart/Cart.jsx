@@ -37,7 +37,7 @@ function Cart() {
 
       <header className="mt-5 max-w-2xl">
         <p className="eyebrow">Siparişin</p>
-        <h1 className="display-title mt-2 text-4xl sm:text-5xl">Sepetin hazır.</h1>
+        <h1 className="display-title mt-2 text-4xl sm:text-5xl">Sepetin hazır, %NAME%</h1>
         <p className="mt-3 text-base leading-7 text-[#746F68]">
           Ürünlerini son kez kontrol et, ardından teslimat bilgilerine geç.
         </p>
@@ -72,7 +72,9 @@ function Cart() {
           <Button type="secondary" className="mt-3 w-full">
             Sepeti temizle
           </Button>
-          <p className="mt-4 text-center text-xs leading-5 text-[#8B857E]">Teslimat bilgilerini sonraki adımda gireceksin.</p>
+          <p className="mt-4 text-center text-xs leading-5 text-[#8B857E]">
+            Teslimat bilgilerini sonraki adımda gireceksin.
+          </p>
         </aside>
       </div>
     </section>

@@ -19,8 +19,12 @@ function Header() {
             </svg>
           </span>
           <span className="min-w-0 leading-none">
-            <span className="block truncate font-display text-lg font-bold tracking-[-0.03em] sm:text-xl">Fast React</span>
-            <span className="mt-1 block text-[0.58rem] font-bold uppercase tracking-[0.26em] text-[#746F68]">Pizza Co.</span>
+            <span className="block truncate font-display text-lg font-bold tracking-[-0.03em] sm:text-xl">
+              Fast React
+            </span>
+            <span className="mt-1 block text-[0.58rem] font-bold uppercase tracking-[0.26em] text-[#746F68]">
+              Pizza Co.
+            </span>
           </span>
         </Link>
 

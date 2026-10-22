@@ -27,7 +27,7 @@ function CreateUser() {
         />
 
         {username !== "" && (
-          <Button type="primary" to="/menu">
+          <Button type="primary" to="/cart">
             Siparişe başla
             <span aria-hidden="true">→</span>
           </Button>
