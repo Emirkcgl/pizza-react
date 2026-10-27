@@ -1,6 +1,9 @@
 import CreateUser from "../features/user/CreateUser";
+import { useSelector } from "react-redux";
 
 function Home() {
+  const userName = useSelector((state) => state.user.userName);
+
   return (
     <section className="page-shell flex min-h-[calc(100dvh-172px)] items-center py-6 sm:py-10 lg:py-12">
       <div className="grid w-full items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
@@ -14,7 +17,12 @@ function Home() {
             En iyi
             <span className="relative block text-[#A83422]">
               pizza.
-              <svg className="absolute -bottom-3 left-1 h-4 w-[70%] text-[#EABF5C]" viewBox="0 0 300 20" fill="none" aria-hidden="true">
+              <svg
+                className="absolute -bottom-3 left-1 h-4 w-[70%] text-[#EABF5C]"
+                viewBox="0 0 300 20"
+                fill="none"
+                aria-hidden="true"
+              >
                 <path d="M4 14C70 3 182 3 296 9" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
               </svg>
             </span>
@@ -25,16 +33,38 @@ function Home() {
           </p>
 
           <div className="mt-8 max-w-xl">
-            <CreateUser />
+            {!userName ? (
+              <CreateUser />
+            ) : (
+              <button className="rounded-md bg-[#2F593C] px-4 py-2 text-white">Siparişe devam et</button>
+            )}
           </div>
         </div>
 
         <div className="relative mx-auto w-full max-w-[580px] lg:mx-0">
-          <div className="absolute -left-5 top-10 h-24 w-24 rounded-full bg-[#EABF5C]/30 blur-2xl" aria-hidden="true"></div>
-          <div className="absolute -right-3 bottom-10 h-32 w-32 rounded-full bg-[#2F593C]/20 blur-3xl" aria-hidden="true"></div>
+          <div
+            className="absolute -left-5 top-10 h-24 w-24 rounded-full bg-[#EABF5C]/30 blur-2xl"
+            aria-hidden="true"
+          ></div>
+          <div
+            className="absolute -right-3 bottom-10 h-32 w-32 rounded-full bg-[#2F593C]/20 blur-3xl"
+            aria-hidden="true"
+          ></div>
           <div className="relative aspect-square overflow-hidden rounded-[2.5rem] border border-[#E5D9CB] bg-[#EFE3D2] p-[8%] shadow-[0_30px_80px_rgba(59,42,26,0.14)] sm:rounded-[3.5rem]">
-            <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "radial-gradient(#A83422 0.8px, transparent 0.8px)", backgroundSize: "18px 18px" }} aria-hidden="true"></div>
-            <svg viewBox="0 0 500 500" className="relative h-full w-full drop-shadow-[0_30px_22px_rgba(67,42,19,0.25)]" role="img" aria-label="İllüstrasyon pizza">
+            <div
+              className="absolute inset-0 opacity-40"
+              style={{
+                backgroundImage: "radial-gradient(#A83422 0.8px, transparent 0.8px)",
+                backgroundSize: "18px 18px",
+              }}
+              aria-hidden="true"
+            ></div>
+            <svg
+              viewBox="0 0 500 500"
+              className="relative h-full w-full drop-shadow-[0_30px_22px_rgba(67,42,19,0.25)]"
+              role="img"
+              aria-label="İllüstrasyon pizza"
+            >
               <defs>
                 <radialGradient id="crust" cx="40%" cy="35%">
                   <stop offset="0" stopColor="#F6D995" />
@@ -50,8 +80,10 @@ function Home() {
               <circle cx="250" cy="250" r="184" fill="#A83422" />
               <circle cx="250" cy="250" r="170" fill="url(#cheese)" />
               <g fill="#B53B28">
-                <circle cx="180" cy="150" r="29" /><circle cx="322" cy="160" r="31" />
-                <circle cx="147" cy="294" r="31" /><circle cx="306" cy="326" r="32" />
+                <circle cx="180" cy="150" r="29" />
+                <circle cx="322" cy="160" r="31" />
+                <circle cx="147" cy="294" r="31" />
+                <circle cx="306" cy="326" r="32" />
                 <circle cx="251" cy="234" r="26" />
               </g>
               <g fill="#2F593C">
@@ -61,8 +93,10 @@ function Home() {
                 <path d="M128 213c25-13 45 2 50 25-25 12-44-2-50-25Z" />
               </g>
               <g fill="#FFF7E5" opacity="0.92">
-                <circle cx="276" cy="118" r="13" /><circle cx="374" cy="286" r="12" />
-                <circle cx="212" cy="286" r="11" /><circle cx="116" cy="340" r="12" />
+                <circle cx="276" cy="118" r="13" />
+                <circle cx="374" cy="286" r="12" />
+                <circle cx="212" cy="286" r="11" />
+                <circle cx="116" cy="340" r="12" />
               </g>
             </svg>
             <div className="absolute bottom-5 left-5 rounded-2xl border border-white/70 bg-white/90 px-4 py-3 shadow-lg backdrop-blur-sm sm:bottom-8 sm:left-8 sm:px-5">

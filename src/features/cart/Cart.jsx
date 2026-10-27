@@ -2,6 +2,7 @@ import LinkButton from "../../UI/LinkButton";
 import Button from "../../UI/Button";
 import CartItem from "./CartItem";
 import { formatCurrency } from "../../utils/helpers";
+import { useSelector } from "react-redux";
 const fakeCart = [
   {
     pizzaId: 12,
@@ -31,13 +32,15 @@ function Cart() {
   const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
   const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  const userName = useSelector((state) => state.user.userName);
+
   return (
     <section className="page-shell">
       <LinkButton to="/menu">&larr; Menüye dön</LinkButton>
 
       <header className="mt-5 max-w-2xl">
         <p className="eyebrow">Siparişin</p>
-        <h1 className="display-title mt-2 text-4xl sm:text-5xl">Sepetin hazır, %NAME%</h1>
+        <h1 className="display-title mt-2 text-4xl sm:text-5xl">Sepetin hazır, {userName}</h1>
         <p className="mt-3 text-base leading-7 text-[#746F68]">
           Ürünlerini son kez kontrol et, ardından teslimat bilgilerine geç.
         </p>
